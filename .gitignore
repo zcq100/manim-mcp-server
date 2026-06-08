@@ -1,0 +1,30 @@
+# Manim 渲染产物
+output/
+media/
+videos/
+partial_movie_files/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# IDE / 编辑器
+.vscode/
+.idea/
+.DS_Store
+
+# Claude
+.claude/
+.cache/
+
+# 临时文件
+*.swp
+*.swo
+*~
+docs/
