@@ -13,17 +13,13 @@ podman build --network host -t manim-mcp-server .
 ### Run
 
 ```bash
-# Without authentication
 podman run -d --rm --network host \
   -v "$(pwd)/output:/manim/output" \
-  manim-mcp-server
-
-# With API key authentication
-podman run -d --rm --network host \
   -e API_KEY=your-secret-key \
-  -v "$(pwd)/output:/manim/output" \
   manim-mcp-server
 ```
+
+Omit `-e API_KEY=...` to run without authentication.
 
 Server listens on `http://localhost:8000`.
 
@@ -142,9 +138,9 @@ Or with API key:
 ### Using Pre-built Image
 
 ```bash
-# Pull and run the pre-built image from GHCR
 podman run -d --rm --network host \
   -v "$(pwd)/output:/manim/output" \
+  -e API_KEY=your-secret-key \
   ghcr.io/zcq100/manim-mcp-server:latest
 ```
 
