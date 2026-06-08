@@ -75,6 +75,102 @@ Get download URL for a rendered video file.
 
 - `video_path` (required) — Path returned by render_* tools
 
+## MCP Integration
+
+### Claude Desktop
+
+Add to `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "manim": {
+      "type": "http",
+      "url": "http://localhost:8000/mcp"
+    }
+  }
+}
+```
+
+With API key:
+
+```json
+{
+  "mcpServers": {
+    "manim": {
+      "type": "http",
+      "url": "http://localhost:8000/mcp",
+      "headers": {
+        "Authorization": "Bearer your-secret-key"
+      }
+    }
+  }
+}
+```
+
+### Claude Code (CLI)
+
+Add to `~/.claude/settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "manim": {
+      "type": "http",
+      "url": "http://localhost:8000/mcp"
+    }
+  }
+}
+```
+
+Or with API key:
+
+```json
+{
+  "mcpServers": {
+    "manim": {
+      "type": "http",
+      "url": "http://localhost:8000/mcp",
+      "headers": {
+        "Authorization": "Bearer your-secret-key"
+      }
+    }
+  }
+}
+```
+
+### Using Pre-built Image
+
+```bash
+# Pull and run the pre-built image from GHCR
+podman run -d --rm --network host \
+  -v "$(pwd)/output:/manim/output" \
+  ghcr.io/zcq100/manim-mcp-server:latest
+```
+
+### Example: Render an animation
+
+Once integrated, the agent can:
+
+1. **List scenes** in a script:
+   ```
+   Call list_scenes with script_path=/manim/scripts/example.py
+   → ["MyScene", "AnotherScene"]
+   ```
+
+2. **Render from code**:
+   ```
+   Call render_code with code="from manim import *\nclass Circle(Scene):\n    def construct(self):\n        self.add(Circle())\n        self.wait()"
+   → video_path="/manim/output/videos/.../Circle.mp4"
+   ```
+
+3. **Download the video**:
+   ```
+   Call get_video with video_path="/manim/output/videos/.../Circle.mp4"
+   → download_url="http://localhost:8000/download?path=..."
+   → GET download_url → .mp4 file
+   ```
+
 ## Development
 
 ### Interactive dev container
