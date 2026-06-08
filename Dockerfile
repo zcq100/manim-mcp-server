@@ -21,6 +21,9 @@ COPY src/ /manim/src/
 # Use manimuser (non-root for safety)
 USER manimuser
 
+# Declare output volume for video files
+VOLUME ["/manim/output"]
+
 # Expose MCP HTTP port
 EXPOSE 8000
 
